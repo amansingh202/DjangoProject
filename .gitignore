@@ -1,0 +1,5 @@
+# Exclude virtual environment
+DjangoAssignment/
+*.pyc
+__pycache__/
+db.sqlite3
