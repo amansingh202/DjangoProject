@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 def hello_world(request):
-    return HttpResponse("Hello World!")
+    return HttpResponse("Hello World! and page also contains /signup and /login")
 
 def signup(request):
     if request.method == 'POST':
@@ -69,8 +69,6 @@ def update_user(request):
         try:
             data = json.loads(request.body)
             email = data.get('email')
-
-            # Use .filter().update() to bypass model-level uniqueness checks
             updated = UserDetails.objects.filter(email=email).update(
                 username=data.get('username'),
                 password=data.get('password')
