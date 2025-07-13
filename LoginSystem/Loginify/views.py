@@ -66,16 +66,28 @@ def get_user_by_email(request):
 @csrf_exempt
 def update_user(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        email = data.get('email')
         try:
-            user = UserDetails.objects.get(email=email)
-            user.username = data.get('username', user.username)
-            user.password = data.get('password', user.password)
-            user.save()
+            data = json.loads(request.body)
+            email = data.get('email')
+
+            # Use .filter().update() to bypass model-level uniqueness checks
+            updated = UserDetails.objects.filter(email=email).update(
+                username=data.get('username'),
+                password=data.get('password')
+            )
+
+            if updated == 0:
+                return JsonResponse({'error': 'User not found'}, status=404)
             return JsonResponse({'message': 'User updated successfully'})
-        except UserDetails.DoesNotExist:
-            return JsonResponse({'error': 'User not found'}, status=404)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
+
+
+
+
 
 
 @csrf_exempt
