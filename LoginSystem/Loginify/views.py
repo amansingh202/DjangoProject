@@ -25,4 +25,17 @@ def signup(request):
     
     return render(request, 'signup.html')
         
-    
+def login(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+
+        try:
+            user = UserDetails.objects.get(email=email, password = password)
+            return render(request, 'success.html', {'user':user})
+        except UserDetails.DoesNotExist:
+            messages.error(request, 'Invalid email or password')
+            return redirect('login')
+        
+    return redirect(request, 'login.html')
+
