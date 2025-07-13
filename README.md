@@ -1,5 +1,5 @@
 # DjangoProject
-contains code for the django project
+contains code for the django project and results. Kindly follow this readme for the attached screenshots link for the result of Task3, Task4, and Task 5
 
 # Task 1 done:-
 1. Create a Virtual Environment: DjangoAssignment
